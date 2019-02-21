@@ -1,0 +1,5 @@
+proxmox_packages:
+  - open-iscsi
+  - postfix
+  - proxmox-ve
+  - python-pip

@@ -1,0 +1,13 @@
+- name: Install ntp
+  become: yes
+  apt:
+    name: ntp
+    state: present
+    update_cache: yes
+
+- name: Configure local sources
+  become: yes
+  lineinfile:
+    path: /etc/ntp.conf
+    regexp: '^server pool.ntp.org'
+    line: 'server {{ ntp_country_code }}.pool.ntp.org'

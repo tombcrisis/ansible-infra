@@ -1,0 +1,2 @@
+# the country code to use for local ntp servers, e.g. XX.pool.ntp.org
+ntp_country_code: "US"

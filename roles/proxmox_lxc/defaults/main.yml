@@ -1,0 +1,9 @@
+---
+cores: 1
+cpuunits: 1000
+disk_size: 8
+memory_size: 512
+netif: '{"net0":"name=eth0,ip=dhcp,ip6=dhcp,bridge=vmbr0"}'
+storage: "local-lvm"
+start_container: no
+swap_size: 0

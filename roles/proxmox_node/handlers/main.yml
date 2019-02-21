@@ -1,0 +1,6 @@
+- name: restart pveproxy
+  become: yes
+  systemd:
+    name: pveproxy
+    state: restarted
+  register: pveproxy_restarted

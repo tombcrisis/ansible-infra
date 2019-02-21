@@ -1,0 +1,34 @@
+---
+- name: Create group
+  become: yes
+  group:
+    name: '{{ user_group }}'
+    state: present
+
+- name: Create user
+  become: yes
+  user:
+    name: '{{ user_name }}'
+    group: '{{ user_group }}'
+    state: present
+
+- name: Update bash profile
+  become: yes
+  lineinfile:
+    create: yes
+    path: '/home/{{ user_name }}/.bash_profile'
+    line: 'export LANG={{ locale_cd }}.{{ file_encoding }}'
+
+- name: Enable locale
+  become: yes
+  lineinfile:
+    path: '/etc/locale.gen'
+    regexp: '# {{ locale_cd }}.{{ file_encoding }} {{ file_encoding }}'
+    line: '{{ locale_cd }}.{{ file_encoding }} {{ file_encoding }}'
+
+- name: Install locales
+  become: yes
+  apt:
+    name: locales
+    state: latest
+    update_cache: yes

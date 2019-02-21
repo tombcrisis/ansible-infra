@@ -1,0 +1,10 @@
+---
+- hosts: proxmox
+  become: yes
+  roles:
+    - proxmox_node
+  vars:
+    debian_version_name: 'stretch'
+    disable_subscription_check: 'yes'
+    proxmox_version: '5.2'
+    proxmox_version_group: '5.x'

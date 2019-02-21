@@ -1,0 +1,47 @@
+---
+- hosts: proxmox_host
+  become: yes
+  roles:
+    - proxmox_lxc
+  vars:
+    api_host: '<proxmox-ip>'
+    api_user: '<proxmox-user>@pam'
+    cores: 1
+    cpuunits: 1000
+    disk_size: 8
+    gateway: '<gateway>'
+    hostname: '<container-hostname>'
+    lxc_ip: '<container-ip>'
+    mac_addr: '<container-macaddr>'
+    memory_size: 512
+    mounts: '{}'
+    netif: '{"net0": "name=eth0,hwaddr={{ mac_addr }},gw={{ gateway }},ip={{ lxc_ip }}/24,bridge=vmbr0"}'
+    node: '<proxmod-node-name>'
+    os_template: '<proxmox-storage>:vztmpl/<template-name>'
+    pubkey: "{{ lookup('file', '../files/homelab.pub') }}"
+    resource_pool: '<proxmox-user-pool>'
+    start_container: 'yes'
+    storage: 'local-lvm'
+    swap_size: 0
+    validate_certs: 'no'
+    vm_id: <vm_id>
+  vars_prompt:
+    - name: 'api_password'
+      prompt: 'PVE API password'
+      private: yes
+    - name: 'lxc_password'
+      prompt: 'LXC password'
+      private: yes
+
+- hosts: proxmox_container
+  become: yes
+  roles:
+    - localized
+    - ntp
+  vars:
+    debian_version_name: 'stretch'
+    file_encoding: 'UTF-8'
+    locale_cd: 'en_US'
+    ntp_country_code: 'US'
+    user_group: 'root'
+    user_name: 'root'

@@ -1,0 +1,41 @@
+---
+- name: Create LXC container
+  become: yes
+  proxmox:
+    state: present
+    api_host: '{{ api_host }}'
+    api_user: '{{ api_user }}'
+    api_password: '{{ api_password }}'
+    cores: '{{ cores }}'
+    cpuunits: '{{ cpuunits }}'
+    disk: '{{ disk_size }}'
+    hostname: '{{ hostname }}'
+    memory: '{{ memory_size }}'
+    mounts: '{{ mounts }}'
+    netif: '{{ netif }}'
+    node: '{{ node }}'
+    ostemplate: '{{ os_template }}'
+    password: '{{ lxc_password }}'
+    pool: '{{ resource_pool }}'
+    pubkey: ' {{ pubkey }}'
+    storage: '{{ storage }}'
+    swap: '{{ swap_size }}'
+    validate_certs: '{{ validate_certs }}'
+    vmid: '{{ vm_id }}'
+
+- name: Start LXC container
+  become: yes
+  proxmox:
+    state: started
+    api_host: '{{ api_host }}'
+    api_user: '{{ api_user }}'
+    api_password: '{{ api_password }}'
+    vmid: '{{ vm_id }}'
+  when: start_container == 'yes'
+
+- name: Wait for container to start up
+  become: yes
+  wait_for:
+    host: '{{ lxc_ip }}'
+    port: 22
+    state: started
